@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .parent{
+            display: flex;
+        }
+        .child{
+            border-right: 2px solid black;
+            width: 80%;
+            height: 60vh;
+            margin: 10px;
+        }
+        input{
+            display: flex;
+            height: 50px;
+            width: 80%;
+            margin: 20px;
+            font-size: larger;
+        }
+        button{
+            height: 5vh;
+            border-radius: 10%;
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <div class="child">
+            <h2>Book List</h2>
+            <ol id="bookList">
+                <li>C++ Bible-The art of programming <br>ISBN : 4762-5478236-23</li>
+            </ol>
+        </div>
+        <div class ="child">
+            <h2>Add New Book</h2>
+            <input type="text" id="title" placeholder="Title">
+            <input type="text" id="author" placeholder="Author">
+            <input type="text" id="isbn" placeholder="ISBN">
+            <button type="submit" onclick="addBook()">Add Book</button>
+        </div>
+        <div class="child">
+            <h2>Searching For Books</h2>
+            <input type="text" id="searchQuery" placeholder="Search Book">
+            <button type="submit" onclick="searchBooks()">Search</button>
+        </div>
+    </div>
+
+    <script>
+        function addBook() {
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const isbn = document.getElementById('isbn').value;
+            const bookList = document.getElementById('bookList');
+            
+            const existingBooks = Array.from(bookList.getElementsByTagName('li'));
+            const isDuplicate = existingBooks.some(book => book.innerText.includes(`ISBN : ${isbn}`));
+
+            if (!isDuplicate) {
+                const newBook = document.createElement('li');
+                newBook.innerHTML = `${title} by ${author} <br>ISBN : ${isbn}`;
+                bookList.appendChild(newBook);
+            } else {
+                alert('This book is already in the list.');
+            }
+        }
+
+        function searchBooks() {
+            const searchQuery = document.getElementById('searchQuery').value.toLowerCase();
+            const bookList = document.getElementById('bookList');
+            const books = Array.from(bookList.getElementsByTagName('li'));
+
+            books.forEach(book => {
+                const bookInfo = book.innerText.toLowerCase();
+                if (bookInfo.includes(searchQuery)) {
+                    book.style.display = 'block';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
